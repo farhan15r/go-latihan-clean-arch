@@ -1,19 +1,33 @@
 package usecase
 
-import "clean-arch-hicoll/pkg/domain"
+import (
+	"clean-arch-hicoll/pkg/domain"
+	"clean-arch-hicoll/pkg/dto"
+
+	"github.com/mitchellh/mapstructure"
+)
 
 type StudentUsecase struct {
 	studentRepository domain.StudentRepository
 }
 
-func NewStudentUsecase(sr domain.StudentUsecase) domain.StudentUsecase {
+func NewStudentUsecase(sr domain.StudentRepository) domain.StudentUsecase {
 	return &StudentUsecase{
 		studentRepository: sr,
 	}
 }
 
-func (su *StudentUsecase) AddNewStudent(student domain.Student) error {
-	err := su.studentRepository.AddNewStudent(student)
+func (su *StudentUsecase) AddNewStudent(req dto.StudentDTO) error {
+	err := req.Validation()
+	if err != nil {
+		return err
+	}
+
+	student := domain.Student{}
+
+	mapstructure.Decode(req, &student)
+
+	err = su.studentRepository.AddNewStudent(student)
 	if err != nil {
 		return err
 	}
@@ -36,8 +50,17 @@ func (su *StudentUsecase) GetStudentById(studentId int) (domain.Student, error) 
 	return student, nil
 }
 
-func (su *StudentUsecase) UpdateStudentById(student domain.Student) error {
-	_, err := su.studentRepository.GetStudentById(student.Id)
+func (su *StudentUsecase) UpdateStudentById(req dto.StudentDTO, studentId int) error {
+	err := req.Validation()
+	if err != nil {
+		return err
+	}
+
+	student := domain.Student{}
+	mapstructure.Decode(req, &student)
+	student.Id = studentId
+
+	_, err = su.studentRepository.GetStudentById(student.Id)
 	if err != nil {
 		return err
 	}

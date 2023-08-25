@@ -25,7 +25,7 @@ func ErrorHandler(next echo.HandlerFunc) echo.HandlerFunc {
 func clientError(c echo.Context, err error) bool {
 	exception, ok := err.(exception.ClientError)
 	if ok {
-		response.SetResponse(c, exception.Code, exception.Message, nil)
+		response.SetResponseError(c, exception.Code, exception.Message, exception.Errors)
 
 		return true
 	} else {
@@ -34,5 +34,5 @@ func clientError(c echo.Context, err error) bool {
 }
 
 func internalServerError(c echo.Context, err error) {
-	response.SetResponse(c, http.StatusInternalServerError, "internal server error", nil)
+	response.SetResponseError(c, http.StatusInternalServerError, "internal server error", "internal server error")
 }

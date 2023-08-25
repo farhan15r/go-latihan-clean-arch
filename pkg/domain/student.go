@@ -1,5 +1,7 @@
 package domain
 
+import "clean-arch-hicoll/pkg/dto"
+
 type Student struct {
 	Id         int    `json:"id"`
 	Fullname   string `json:"fullname"`
@@ -19,9 +21,9 @@ type StudentRepository interface {
 }
 
 type StudentUsecase interface {
-	AddNewStudent(student Student) error
+	AddNewStudent(student dto.StudentDTO) error
 	GetAllStudents() ([]Student, error)
 	GetStudentById(studentId int) (Student, error)
-	UpdateStudentById(student Student) error
+	UpdateStudentById(student dto.StudentDTO, studentId int) error
 	DeleteStudentById(studentId int) error
 }

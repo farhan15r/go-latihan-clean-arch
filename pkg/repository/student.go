@@ -60,7 +60,7 @@ func (sr *StudentRepository) GetStudentById(studentId int) (domain.Student, erro
 	if rows.Next() {
 		rows.Scan(&student.Id, &student.Fullname, &student.Address, &student.Birthdate, &student.Class, &student.Batch, &student.SchoolName)
 	} else {
-		return student, exception.NewNotFoundError("student is not found")
+		return student, exception.NewNotFoundError("student is not found", "student is not found")
 	}
 
 	return student, nil
