@@ -22,4 +22,5 @@ func Apply(e *echo.Echo, g *echo.Group) {
 
 	e.Use(controller.ErrorHandler)
 	router.NewStudentRouter(e, g, db)
+	router.NewUserRouter(e, g, db)
 }
