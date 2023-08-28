@@ -5,6 +5,7 @@ import (
 	"clean-arch-hicoll/pkg/dto"
 
 	"github.com/mitchellh/mapstructure"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserUsecase struct {
@@ -24,8 +25,13 @@ func (uu *UserUsecase) AddNewUser(req dto.UserReqDTO) error {
 	}
 
 	user := domain.User{}
+	hasedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
 
 	mapstructure.Decode(req, &user)
+	user.Password = string(hasedPassword)
 
 	err = uu.userRepository.ValidateUsernameAvailable(user.Username)
 	if err != nil {
@@ -79,9 +85,15 @@ func (uu *UserUsecase) UpdateUserById(userId int, req dto.UserReqDTO) error {
 		return err
 	}
 
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
 	user := domain.User{}
 	mapstructure.Decode(req, &user)
 	user.Id = userId
+	user.Password = string(hashedPassword)
 
 	userOld, err := uu.userRepository.GetUserById(user.Id)
 	if err != nil {
