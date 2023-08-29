@@ -20,12 +20,13 @@ func RunServer() {
 
 func Apply(e *echo.Echo, g *echo.Group) {
 	conf := config.NewConfiguration()
-	db := db.NewInstanceDb(&conf)
+	db := db.NewInstanceDb(conf)
+	middleware := controller.NewMiddleware(conf)
 
-	e.Use(controller.ErrorHandler)
+	e.Use(middleware.ErrorHandler)
 	router.NewStudentRouter(e, g, db)
-	router.NewUserRouter(e, g, db)
-	router.NewAuthenticationRouter(e, g, db, &conf)
+	router.NewUserRouter(e, g, db, middleware)
+	router.NewAuthenticationRouter(e, g, db, conf)
 
-	g.RouteNotFound("/*", controller.NotFoundHandler)
+	g.RouteNotFound("/*", middleware.NotFoundHandler)
 }

@@ -53,7 +53,25 @@ func (tm *TokenManager) GenerateRefreshToken(userId int) (string, error) {
 }
 
 func (tm *TokenManager) ValidateAccessToken(token string) (int, error) {
-	panic("not implemented") // TODO: Implement
+	jwtToken, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
+		_, ok := token.Method.(*jwt.SigningMethodHMAC)
+		if !ok {
+			return nil, errors.New("unexpected signing method")
+		}
+
+		return []byte(tm.conf.AccessTokenSecret), nil
+	})
+	if err != nil {
+		return 0, exception.NewUnauthorizedError("token is not valid", err.Error())
+	}
+
+	claims, ok := jwtToken.Claims.(jwt.MapClaims)
+	if !ok && !jwtToken.Valid {
+		return 0, exception.NewUnauthorizedError("access token is not valid", "access is not valid")
+	}
+
+	userId := claims["userId"].(float64)
+	return int(userId), nil
 }
 
 func (tm *TokenManager) ValidateRefreshToken(token string) (int, error) {

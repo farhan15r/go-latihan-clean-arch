@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func NewUserRouter(e *echo.Echo, g *echo.Group, db *sql.DB) {
+func NewUserRouter(e *echo.Echo, g *echo.Group, db *sql.DB, middleware *controller.Middleware) {
 	ur := repository.NewUserRepository(db)
 	uu := usecase.NewUserUsecase(ur)
 	uc := &controller.UserController{
@@ -18,7 +18,7 @@ func NewUserRouter(e *echo.Echo, g *echo.Group, db *sql.DB) {
 
 	e.POST("/users", uc.PostUser)
 	e.GET("/users", uc.GetUsers)
-	e.GET("/users/:userId", uc.GetUser)
+	e.GET("/users/:userId", uc.GetUser, middleware.RequireLogin)
 	e.PUT("/users/:userId", uc.PutUser)
 	e.DELETE("/users/:userId", uc.DeleteUser)
 }

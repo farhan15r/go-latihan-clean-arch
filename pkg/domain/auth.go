@@ -25,3 +25,7 @@ type AuthUsecase interface {
 	Refresh(req dto.AuthRefreshReqDTO) (dto.AuthRefreshResDTO, error)
 	Logut(req dto.AuthLogoutReqDTO) error
 }
+
+type RequireLoginUsecase interface {
+	ValidateAccessToken(token string) (int, error)
+}

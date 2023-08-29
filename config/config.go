@@ -19,7 +19,7 @@ type Configuration struct {
 
 var conf Configuration
 
-func NewConfiguration() Configuration {
+func NewConfiguration() *Configuration {
 	configuration := Configuration{}
 
 	err := gonfig.GetConf("config/config.json", &configuration)
@@ -27,5 +27,5 @@ func NewConfiguration() Configuration {
 		panic(err)
 	}
 
-	return configuration
+	return &configuration
 }
