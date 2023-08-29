@@ -26,4 +26,6 @@ func Apply(e *echo.Echo, g *echo.Group) {
 	router.NewStudentRouter(e, g, db)
 	router.NewUserRouter(e, g, db)
 	router.NewAuthenticationRouter(e, g, db, &conf)
+
+	g.RouteNotFound("/*", controller.NotFoundHandler)
 }
