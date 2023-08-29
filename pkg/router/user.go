@@ -19,6 +19,6 @@ func NewUserRouter(e *echo.Echo, g *echo.Group, db *sql.DB, middleware *controll
 	e.POST("/users", uc.PostUser)
 	e.GET("/users", uc.GetUsers)
 	e.GET("/users/:userId", uc.GetUser, middleware.RequireLogin)
-	e.PUT("/users/:userId", uc.PutUser)
-	e.DELETE("/users/:userId", uc.DeleteUser)
+	e.PUT("/users/:userId", uc.PutUser, middleware.RequireLogin)
+	e.DELETE("/users/:userId", uc.DeleteUser, middleware.RequireLogin)
 }

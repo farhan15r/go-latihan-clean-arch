@@ -26,3 +26,5 @@ CREATE TABLE authentications (
 )
 
 SELECT * FROM authentications
+
+TRUNCATE TABLE authentications

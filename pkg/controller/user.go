@@ -38,6 +38,10 @@ func (uc UserController) GetUser(c echo.Context) error {
 		return exception.NewClientError("param is not valid", "param is not valid")
 	}
 
+	if c.Get("userId") != id {
+		return exception.NewForbiddenError("forbidden", "you are not allowed to access this resource")
+	}
+
 	user, err := uc.UserUsecase.GetUserById(id)
 	if err != nil {
 		return err
@@ -62,6 +66,10 @@ func (uc UserController) PutUser(c echo.Context) error {
 		return exception.NewClientError("param is not valid", "param is not valid")
 	}
 
+	if c.Get("userId") != id {
+		return exception.NewForbiddenError("forbidden", "you are not allowed to access this resource")
+	}
+
 	user := dto.UserReqDTO{}
 
 	err = c.Bind(&user)
@@ -82,6 +90,10 @@ func (uc UserController) DeleteUser(c echo.Context) error {
 
 	if err != nil {
 		return exception.NewClientError("param is not valid", "param is not valid")
+	}
+
+	if c.Get("userId") != id {
+		return exception.NewForbiddenError("forbidden", "you are not allowed to access this resource")
 	}
 
 	err = uc.UserUsecase.DeleteUserById(id)

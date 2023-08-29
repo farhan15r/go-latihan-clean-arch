@@ -39,3 +39,12 @@ func NewUnauthorizedError(message string, errors interface{}) ClientError {
 		Errors:  errors,
 	}
 }
+
+func NewForbiddenError(message string, errors interface{}) ClientError {
+	return ClientError{
+		Code:    403,
+		Status:  "FORBIDDEN",
+		Message: message,
+		Errors:  errors,
+	}
+}
