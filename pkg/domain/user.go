@@ -18,6 +18,7 @@ type UserRepository interface {
 	GetAllUsers() ([]User, error)
 	UpdateUserById(user User) error
 	DeleteUserById(userId int) error
+	GetUserByUsername(username string) (User, error)
 }
 
 type UserUsecase interface {

@@ -20,3 +20,9 @@ CREATE TABLE users (
 )
 
 SELECT * FROM users 
+
+CREATE TABLE authentications (
+    refresh_token TEXT NOT NULL
+)
+
+SELECT * FROM authentications

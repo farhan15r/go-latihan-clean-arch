@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"clean-arch-hicoll/config"
 	"clean-arch-hicoll/pkg/controller"
 	"clean-arch-hicoll/pkg/router"
 	"clean-arch-hicoll/shared/db"
@@ -18,9 +19,11 @@ func RunServer() {
 }
 
 func Apply(e *echo.Echo, g *echo.Group) {
-	db := db.NewInstanceDb()
+	conf := config.NewConfiguration()
+	db := db.NewInstanceDb(&conf)
 
 	e.Use(controller.ErrorHandler)
 	router.NewStudentRouter(e, g, db)
 	router.NewUserRouter(e, g, db)
+	router.NewAuthenticationRouter(e, g, db, &conf)
 }

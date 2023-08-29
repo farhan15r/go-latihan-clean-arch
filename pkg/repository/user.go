@@ -115,3 +115,17 @@ func (ur *UserRepository) DeleteUserById(userId int) error {
 	}
 	return nil
 }
+
+func (ur *UserRepository) GetUserByUsername(username string) (domain.User, error) {
+	query := "SELECT id, username, password FROM users WHERE username = $1 LIMIT 1"
+
+	row := ur.DB.QueryRow(query, username)
+
+	user := domain.User{}
+	err := row.Scan(&user.Id, &user.Username, &user.Password)
+	if err != nil {
+		return user, exception.NewNotFoundError("user not found", "user not found")
+	}
+
+	return user, nil
+}

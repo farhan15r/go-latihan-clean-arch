@@ -7,6 +7,7 @@ require github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 require (
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/labstack/echo/v4 v4.11.1 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/lib/pq v1.10.9 // indirect

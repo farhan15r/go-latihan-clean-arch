@@ -30,3 +30,12 @@ func NewClientError(message string, errors interface{}) ClientError {
 		Errors:  errors,
 	}
 }
+
+func NewUnauthorizedError(message string, errors interface{}) ClientError {
+	return ClientError{
+		Code:    401,
+		Status:  "UNAUTHORIZED",
+		Message: message,
+		Errors:  errors,
+	}
+}

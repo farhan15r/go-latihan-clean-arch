@@ -3,5 +3,10 @@
     "db_password": "password",
     "db_host": "localhost",
     "db_port": 5432,
-    "db_name": "db_clean_arch_hicoll"
+    "db_name": "db_clean_arch_hicoll",
+
+    "access_token_secret": "ldasjbv32487fvieuwnc2093ucdoiasmsc3497gvk2mec12938hgv2983yumnr",
+    "access_token_exp": 30,
+    "refresh_token_secret": "98nmijervf8uhn34928m3urvcikjmodfvn873v4m09217834cex2343n8m9v47r",
+    "refresh_token_exp": 360
 }   

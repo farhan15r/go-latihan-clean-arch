@@ -10,6 +10,11 @@ type Configuration struct {
 	DBHost     string `json:"db_host"`
 	DBPort     int    `json:"db_port"`
 	DBName     string `json:"db_name"`
+
+	AccessTokenSecret  string `json:"access_token_secret"`
+	AccessTokenExp     int    `json:"access_token_exp"`
+	RefreshTokenSecret string `json:"refresh_token_secret"`
+	RefreshTokenExp    int    `json:"refresh_token_exp"`
 }
 
 var conf Configuration
