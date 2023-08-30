@@ -11,6 +11,8 @@ CREATE TABLE students (
 
 SELECT * FROM students
 
+DROP TABLE IF EXISTS students
+
 CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
     username VARCHAR UNIQUE NOT NULL,
@@ -19,11 +21,15 @@ CREATE TABLE users (
     address TEXT NULL
 )
 
+DROP TABLE IF EXISTS users
+
 SELECT * FROM users 
 
 CREATE TABLE authentications (
     refresh_token TEXT NOT NULL
 )
+
+DROP TABLE IF EXISTS authentications
 
 SELECT * FROM authentications
 
