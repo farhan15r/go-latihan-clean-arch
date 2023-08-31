@@ -7,7 +7,6 @@ import (
 	"clean-arch-hicoll/shared/response"
 	"clean-arch-hicoll/shared/token"
 	"net/http"
-	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -27,20 +26,9 @@ func (m Middleware) RequireLogin(next echo.HandlerFunc) echo.HandlerFunc {
 	rlu := usecase.NewRequireLoginUsecase(tm)
 
 	return func(c echo.Context) error {
-		value := c.Request().Header.Get("Authorization")
+		authHeader := c.Request().Header.Get("Authorization")
 
-		if value == "" {
-			return response.SetResponseError(c, 401, "unauthorized", "unauthorized")
-		}
-
-		splitToken := strings.Split(value, "Bearer ")
-		if len(splitToken) != 2 {
-			return response.SetResponseError(c, 401, "unauthorized", "unauthorized")
-		}
-
-		accessToken := splitToken[1]
-
-		userId, err := rlu.ValidateAccessToken(accessToken)
+		userId, err := rlu.ValidateAccessToken(authHeader)
 		if err != nil {
 			return err
 		}
