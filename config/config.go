@@ -29,3 +29,14 @@ func NewConfiguration() *Configuration {
 
 	return &configuration
 }
+
+func NewConfigurationPath(path string) *Configuration {
+	configuration := Configuration{}
+
+	err := gonfig.GetConf(path, &configuration)
+	if err != nil {
+		panic(err)
+	}
+
+	return &configuration
+}
