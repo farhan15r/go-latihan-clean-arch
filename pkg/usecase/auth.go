@@ -67,9 +67,11 @@ func (au *AuthUsecase) Login(req dto.AuthDTO) (domain.Auth, error) {
 }
 
 func (au *AuthUsecase) Refresh(req dto.AuthRefreshReqDTO) (dto.AuthRefreshResDTO, error) {
-	err := req.Validate()
-
 	res := dto.AuthRefreshResDTO{}
+	err := req.Validate()
+	if err != nil {
+		return res, err
+	}
 
 	err = au.ar.ValidateRefreshToken(req.RefreshToken)
 	if err != nil {
